@@ -1,0 +1,109 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-05-22T12:08:31.158Z",
+    "end": "2024-05-22T12:08:54.416Z",
+    "duration": 23258,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b380b3aa-97be-4328-ba58-a556feb7c629",
+      "title": "",
+      "fullFile": "cypress\\e2e\\failingTest.cy.js",
+      "file": "cypress\\e2e\\failingTest.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4919a803-2b74-4d07-acee-7fb83691d8d4",
+          "title": "Failing test for adding product to cart from PLP on makeup.ua",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should fail after adding a product to the cart",
+              "fullTitle": "Failing test for adding product to cart from PLP on makeup.ua should fail after adding a product to the cart",
+              "timedOut": null,
+              "duration": 22658,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\ncy.url().should('eq', Cypress.config().baseUrl);\n// Open the category menu and select a category\ncy.get('.menu-button').click();\ncy.get(`:nth-child(${randomCategoryIndex}) > .menu-list__link`).click(); // Selecting a random category\n// Verify that the category page is displayed\ncy.url().should('contain', 'category');\n// Scroll to the product section\ncy.scrollTo('center');\n// Select a specific product and add it to the basket\ncy.get('.simple-slider-list__link > .product-icons-wrapper > .to-quick-buy').first().click(); // Select the first product on the PLP\n// Add the product to the basket\ncy.get('.header-basket').click();\n// Verify that the basket page is displayed\ncy.get('.page-header').should('contain', 'Кошик');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: expected '[ <h1.page-header.page-header_category>, 2 more... ]' to contain 'Кошик'",
+                "estack": "AssertionError: Timed out retrying after 4000ms: expected '[ <h1.page-header.page-header_category>, 2 more... ]' to contain 'Кошик'\n    at Context.eval (webpack:///./cypress/e2e/failingTest.cy.js:25:27)",
+                "diff": null
+              },
+              "uuid": "d23aa02b-9db2-4508-8fba-16a1dd58d89f",
+              "parentUUID": "4919a803-2b74-4d07-acee-7fb83691d8d4",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "d23aa02b-9db2-4508-8fba-16a1dd58d89f"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 22658,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-05-22T12:09:04.665Z",
+    "end": "2024-05-22T12:09:24.961Z",
+    "duration": 20296,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b8ade23a-3cc9-488b-ba7c-cf86f78ca2ed",
+      "title": "",
+      "fullFile": "cypress\\e2e\\priceFilter.cy.js",
+      "file": "cypress\\e2e\\priceFilter.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "29ea2ef8-d61d-427a-a285-8a71173b97c8",
+          "title": "Verify price filter works correctly",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should apply price filters and verify results",
+              "fullTitle": "Verify price filter works correctly should apply price filters and verify results",
+              "timedOut": null,
+              "duration": 20142,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\ncy.url().should('eq', Cypress.config().baseUrl);\n// Open the category menu\ncy.get('.menu-button').click();\n// Select a specific category\ncy.get(`:nth-child(${randomCategoryIndex}) > .menu-list__link`).click();\ncy.url().should('contain', 'category');\n// Open the filter section\ncy.get('[data-id=\"parameters\"]').click();\ncy.scrollTo('bottom');\n// Apply the price filter\ncy.contains('.catalog-filter-name', 'Вартість').click();\ncy.get(`#catalog-price-dia-_${randomFilterIndex} > label`).click().invoke('text').then(text => {\n  filterValue = text.trim(); // Store the filter value\n  // Apply the filter\n  cy.get('button:contains(\"Застосувати\")').click();\n  cy.scrollTo('top');\n  // Construct the expected value based on different conditions\n  let expectedValue;\n  if (filterValue.includes('Менше')) {\n    expectedValue = `price_to=${filterValue.replace('Менше', '').trim().replace('₴', '').trim()}`;\n  } else if (filterValue.includes('Більше')) {\n    expectedValue = `price_from=${filterValue.replace('Більше', '').trim().replace('₴', '').trim()}`;\n  } else if (filterValue.includes('-')) {\n    const [from, to] = filterValue.split('-').map(val => val.trim());\n    expectedValue = `#price_from=${from}&price_to=${to}`.trim().replace('₴', '').trim();\n  } else {\n    // Default case if none of the conditions match\n    expectedValue = '';\n  }\n  // Verify the URL contains the expected filter parameter\n  cy.url().should('include', expectedValue);\n});",
+              "err": {},
+              "uuid": "f6ee94c8-dbfc-43ad-93aa-2e476735430b",
+              "parentUUID": "29ea2ef8-d61d-427a-a285-8a71173b97c8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f6ee94c8-dbfc-43ad-93aa-2e476735430b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20142,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
