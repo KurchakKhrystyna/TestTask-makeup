@@ -1,0 +1,109 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-05-22T12:06:40.684Z",
+    "end": "2024-05-22T12:07:49.728Z",
+    "duration": 69044,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "fedc5f23-fb68-401f-9cd0-2ee77891b828",
+      "title": "",
+      "fullFile": "cypress\\e2e\\addToBasket.cy.js",
+      "file": "cypress\\e2e\\addToBasket.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "f11ef295-c0df-42c0-9196-2ecfcff3bf30",
+          "title": "Add items to the basket",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add items to the basket and verify the price calculation",
+              "fullTitle": "Add items to the basket should add items to the basket and verify the price calculation",
+              "timedOut": null,
+              "duration": 67106,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Visit the base URL\ncy.visit('/');\ncy.url().should('eq', Cypress.config().baseUrl);\n// Function to get product price and calculate total price\nconst calculateTotalPrice = productId => {\n  return cy.get(`[data-id=\"${productId}\"] > .product-list_product-item > .product__column > .product__price-column > .product__price`).invoke('text').then(priceText => {\n    const price = parseFloat(priceText.replace(/,/g, '').trim());\n    return price;\n  });\n};\n// Open the category menu and select the first category\ncy.get('.menu-button').click();\ncy.get(`:nth-child(${categoryIndex1}) > .menu-list__link`).click();\ncy.url().should('contain', 'category');\ncy.scrollTo('center');\n// Add the first product to the basket\ncy.get(`[data-default-variant-id=\"${productVariantId1}\"] > .simple-slider-list__link > .simple-slider-list__image`).click();\ncy.contains('.button', 'Купити').click();\ncy.get('.page-header').should('contain', 'Кошик');\ncy.get('.popup__window > .popup-close').click();\ncy.get('.bread-crumbs__back').click();\ncy.get('.menu-button').click();\n// Open the category menu and select the second category\ncy.get(`:nth-child(${categoryIndex2}) > .menu-list__link`).click();\ncy.url().should('contain', 'category');\ncy.scrollTo('center');\n// Add the second product to the basket\ncy.get(`[data-default-variant-id=\"${productVariantId2}\"] > .simple-slider-list__link > .info-product-wrapper > .simple-slider-list__name`).click();\ncy.url().should('contain', 'product');\ncy.contains('.button', 'Купити').click();\ncy.get('.page-header').should('contain', 'Кошик');\ncy.get('#show-all-cart-items').click();\n// Verify that the cart contains the selected products\ncy.get('.product__header').should('contain', productName1).and('contain', productName2);\n// Get the prices of the items and calculate the total price\ncalculateTotalPrice(`40445_${productVariantId1}`).then(price1 => {\n  calculateTotalPrice(`803043_${productVariantId2}`).then(price2 => {\n    const totalPrice = price1 + price2; // Calculate the total price\n    const expectedTotalPrice = totalPrice.toFixed(2); // Format the expected total price\n    // Assert that the displayed total price matches the expected total price\n    cy.get('.total > span > strong').invoke('text').then(actualTotalPrice => {\n      const formattedActualTotalPrice = parseFloat(actualTotalPrice).toFixed(2);\n      expect(formattedActualTotalPrice).to.equal(expectedTotalPrice);\n    });\n  });\n});\n// Verify that the remove button is visible\ncy.get('.product__button-remove').should('be.visible');",
+              "err": {
+                "message": "CypressError: Timed out retrying after 4050ms: `cy.click()` failed because the center of this element is hidden from view:\n\n`<a href=\"/ua/categorys/2419/\" class=\"menu-list__link menu-list__link_category\">Макіяж</a>`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with",
+                "estack": "CypressError: Timed out retrying after 4050ms: `cy.click()` failed because the center of this element is hidden from view:\n\n`<a href=\"/ua/categorys/2419/\" class=\"menu-list__link menu-list__link_category\">Макіяж</a>`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with\n    at ensureIsDescendent (https://makeup.com.ua/__cypress/runner/cypress_runner.js:139726:74)\n    at ensureDescendents (https://makeup.com.ua/__cypress/runner/cypress_runner.js:139762:5)\n    at ensureDescendentsAndScroll (https://makeup.com.ua/__cypress/runner/cypress_runner.js:139768:14)\n    at ensureElIsNotCovered (https://makeup.com.ua/__cypress/runner/cypress_runner.js:139899:5)\n    at runAllChecks (https://makeup.com.ua/__cypress/runner/cypress_runner.js:140079:52)\n    at retryActionability (https://makeup.com.ua/__cypress/runner/cypress_runner.js:140116:16)\n    at tryCatcher (https://makeup.com.ua/__cypress/runner/cypress_runner.js:18744:23)\n    at Promise.attempt.Promise.try (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16018:29)\n    at whenStable (https://makeup.com.ua/__cypress/runner/cypress_runner.js:156400:65)\n    at <unknown> (https://makeup.com.ua/__cypress/runner/cypress_runner.js:155841:14)\n    at tryCatcher (https://makeup.com.ua/__cypress/runner/cypress_runner.js:18744:23)\n    at Promise._settlePromiseFromHandler (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16679:31)\n    at Promise._settlePromise (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16736:18)\n    at Promise._settlePromise0 (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16781:10)\n    at Promise._settlePromises (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16861:18)\n    at Promise._fulfill (https://makeup.com.ua/__cypress/runner/cypress_runner.js:16805:18)\n    at <unknown> (https://makeup.com.ua/__cypress/runner/cypress_runner.js:18419:46)\nFrom Your Spec Code:\n    at Context.eval (webpack:///./cypress/e2e/addToBasket.cy.js:40:63)",
+                "diff": null
+              },
+              "uuid": "f097c5f4-74f8-455a-8b6f-cf1421e5584f",
+              "parentUUID": "f11ef295-c0df-42c0-9196-2ecfcff3bf30",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "f097c5f4-74f8-455a-8b6f-cf1421e5584f"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 67106,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

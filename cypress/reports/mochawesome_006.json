@@ -1,0 +1,109 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-05-22T12:16:26.325Z",
+    "end": "2024-05-22T12:16:42.888Z",
+    "duration": 16563,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "d2ee476a-c73a-4ef0-9884-4e3fcb3cdf3c",
+      "title": "",
+      "fullFile": "cypress\\e2e\\priceFilter.cy.js",
+      "file": "cypress\\e2e\\priceFilter.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ec27826e-4fba-467e-8864-f81e166d4ca4",
+          "title": "Verify price filter works correctly",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should apply price filters and verify results",
+              "fullTitle": "Verify price filter works correctly should apply price filters and verify results",
+              "timedOut": null,
+              "duration": 16250,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\ncy.url().should('eq', Cypress.config().baseUrl);\n// Open the category menu\ncy.get('.menu-button').click();\n// Select a specific category\ncy.get(`:nth-child(${randomCategoryIndex}) > .menu-list__link`).click();\ncy.url().should('contain', 'category');\n// Open the filter section\ncy.get('[data-id=\"parameters\"]').click();\ncy.scrollTo('bottom');\n// Apply the price filter\ncy.contains('.catalog-filter-name', 'Вартість').click();\ncy.get(`#catalog-price-dia-_${randomFilterIndex} > label`).click().invoke('text').then(text => {\n  filterValue = text.trim(); // Store the filter value\n  // Apply the filter\n  cy.get('button:contains(\"Застосувати\")').click();\n  cy.scrollTo('top');\n  // Construct the expected value based on different conditions\n  let expectedValue;\n  if (filterValue.includes('Менше')) {\n    expectedValue = `price_to=${filterValue.replace('Менше', '').trim().replace('₴', '').trim()}`;\n  } else if (filterValue.includes('Більше')) {\n    expectedValue = `price_from=${filterValue.replace('Більше', '').trim().replace('₴', '').trim()}`;\n  } else if (filterValue.includes('-')) {\n    const [from, to] = filterValue.split('-').map(val => val.trim());\n    expectedValue = `#price_from=${from}&price_to=${to}`.trim().replace('₴', '').trim();\n  } else {\n    // Default case if none of the conditions match\n    expectedValue = '';\n  }\n  // Verify the URL contains the expected filter parameter\n  cy.url().should('include', expectedValue);\n});",
+              "err": {
+                "message": "CypressError: `cy.click()` can only be called on a single element. Your subject contained 2 elements. Pass `{ multiple: true }` if you want to serially click each element.\n\nhttps://on.cypress.io/click",
+                "estack": "CypressError: `cy.click()` can only be called on a single element. Your subject contained 2 elements. Pass `{ multiple: true }` if you want to serially click each element.\n\nhttps://on.cypress.io/click\n    at mouseAction (https://makeup.com.ua/__cypress/runner/cypress_runner.js:141803:76)\n    at Context.click (https://makeup.com.ua/__cypress/runner/cypress_runner.js:141967:14)\n    at wrapped (https://makeup.com.ua/__cypress/runner/cypress_runner.js:160860:19)\nFrom Your Spec Code:\n    at Context.eval (webpack:///./cypress/e2e/priceFilter.cy.js:15:68)",
+                "diff": null
+              },
+              "uuid": "ec2b39a1-6d4d-4272-b56c-544524a33bb5",
+              "parentUUID": "ec27826e-4fba-467e-8864-f81e166d4ca4",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "ec2b39a1-6d4d-4272-b56c-544524a33bb5"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 16250,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
