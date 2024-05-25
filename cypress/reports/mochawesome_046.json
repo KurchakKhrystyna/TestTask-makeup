@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-05-25T10:31:29.258Z",
+    "end": "2024-05-25T10:32:08.628Z",
+    "duration": 39370,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "f19327a5-c115-4c8e-b38b-9863b24712e5",
+      "title": "",
+      "fullFile": "cypress\\e2e\\addToBasket.cy.js",
+      "file": "cypress\\e2e\\addToBasket.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "20da8453-1053-4864-ae97-a82d99ee8062",
+          "title": "Add items to the basket",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add items to the basket and verify the price calculation",
+              "fullTitle": "Add items to the basket should add items to the basket and verify the price calculation",
+              "timedOut": null,
+              "duration": 38534,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "homePage.visit();\nhomePage.verifyUrl();\nhomePage.openCategoryMenu();\ncategoryPage.selectCategory(categoryIndex1);\ncategoryPage.verifyUrlContains('category');\ncategoryPage.scrollToProductSection();\nproductPage.selectProduct(productVariantId1);\nproductPage.addToBasket();\nproductPage.verifyBasketPageDisplayed();\nproductPage.closePopup();\nproductPage.goBack();\nhomePage.openCategoryMenu();\ncategoryPage.selectCategory(categoryIndex2);\ncategoryPage.verifyUrlContains('category');\ncategoryPage.scrollToProductSection();\nproductPage.selectProduct(productVariantId2);\nproductPage.addToBasket();\nproductPage.verifyBasketPageDisplayed();\nbasketPage.showAllCartItems();\nbasketPage.verifyProductsInBasket(productName1, productName2);\nbasketPage.getProductPrice('40445_1172299').then(price1 => {\n  basketPage.getProductPrice('803043_1804152').then(price2 => {\n    const totalPrice = (price1 + price2).toFixed(2);\n    basketPage.verifyTotalPrice(totalPrice);\n  });\n});\nbasketPage.verifyRemoveButtonVisible();",
+              "err": {},
+              "uuid": "a6b556c8-54b6-4393-b1fe-cd74d2883adb",
+              "parentUUID": "20da8453-1053-4864-ae97-a82d99ee8062",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "a6b556c8-54b6-4393-b1fe-cd74d2883adb"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 38534,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

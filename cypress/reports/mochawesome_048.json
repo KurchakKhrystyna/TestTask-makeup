@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-05-25T10:32:54.635Z",
+    "end": "2024-05-25T10:33:20.512Z",
+    "duration": 25877,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0f3e2c50-c521-4347-92f2-fcbbbe269bde",
+      "title": "",
+      "fullFile": "cypress\\e2e\\priceFilter.cy.js",
+      "file": "cypress\\e2e\\priceFilter.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "205cecbe-7727-49c2-be61-19bc22a6f536",
+          "title": "Verify price filter works correctly",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should apply price filters and verify results",
+              "fullTitle": "Verify price filter works correctly should apply price filters and verify results",
+              "timedOut": null,
+              "duration": 25766,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "homePage.visit();\nhomePage.verifyUrl();\nhomePage.openCategoryMenu();\ncategoryPage.selectCategory(randomCategoryIndex);\ncategoryPage.verifyUrlContains('category');\ncategoryPage.scrollToProductSection();\ncategoryPage.openFilterSection();\ncy.scrollTo('bottom');\ncategoryPage.applyPriceFilter(randomFilterIndex);\ncategoryPage.getFilterValue(randomFilterIndex).then(value => {\n  filterValue = value;\n  let expectedValue;\n  let fromPrice = 0;\n  let toPrice = Number.MAX_SAFE_INTEGER;\n  if (filterValue.includes('Менше')) {\n    toPrice = parseFloat(filterValue.replace('Менше', '').trim().replace('₴', '').trim());\n    expectedValue = `price_to=${toPrice}`;\n  } else if (filterValue.includes('Більше')) {\n    fromPrice = parseFloat(filterValue.replace('Більше', '').trim().replace('₴', '').trim());\n    expectedValue = `price_from=${fromPrice}`;\n  } else if (filterValue.includes('-')) {\n    [fromPrice, toPrice] = filterValue.replace('₴', '').split('-').map(v => parseFloat(v.trim()));\n    expectedValue = `price_from=${fromPrice}&price_to=${toPrice}`;\n  }\n  categoryPage.verifyUrlContainsPriceFilter(expectedValue);\n});",
+              "err": {},
+              "uuid": "fba5f126-926d-4759-9bbf-7968eeae5763",
+              "parentUUID": "205cecbe-7727-49c2-be61-19bc22a6f536",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fba5f126-926d-4759-9bbf-7968eeae5763"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25766,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

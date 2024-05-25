@@ -1,14 +1,16 @@
-describe('Search for an item', () => {
-  const productName = 'Однофазні рідкі кристали';
+import HomePage from '../support/pages/HomePage';
+import SearchResultsPage from '../support/pages/SearchResultsPage';
+
+describe('Search item', () => {
+  const homePage = new HomePage();
+  const searchResultsPage = new SearchResultsPage();
+  const searchItemName = 'Однофазні рідкі кристали';
+
   it('should search for an item and verify results', () => {
-    cy.visit('/');
-    cy.url().should('eq', Cypress.config().baseUrl);
+    homePage.visit();
+    homePage.verifyUrl();
 
-    cy.get('div.search-button').click();
-
-    cy.get('#search-input').type(`${productName}{enter}`);
-
-    cy.get('.catalog-products > .simple-slider-list')
-      .should('contain', productName);
+    homePage.searchItem(searchItemName);
+    searchResultsPage.verifySearchResultsContain(searchItemName);
   });
 });
