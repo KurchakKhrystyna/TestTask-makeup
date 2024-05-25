@@ -1,27 +1,27 @@
+import HomePage from '../support/pages/HomePage';
+import CategoryPage from '../support/pages/CategoryPage';
+import ProductPage from '../support/pages/ProductPage';
+import BasketPage from '../support/pages/BasketPage';
 
-describe('Failing test for adding product to cart from PLP on makeup.ua', () => {
-  const randomCategoryIndex = Math.floor(Math.random() * 5) + 2;
-  it('should fail after adding a product to the cart', () => {
-    cy.visit('/');
-    cy.url().should('eq', Cypress.config().baseUrl);
+describe('Failing Test', () => {
+  const productVariantId1 = '1172299';
+  const homePage = new HomePage();
+  const categoryPage = new CategoryPage();
+  const productPage = new ProductPage();
+  const basketPage = new BasketPage();
 
-    // Open the category menu and select a category
-    cy.get('.menu-button').click();
-    cy.get(`:nth-child(${randomCategoryIndex}) > .menu-list__link`).click(); // Selecting a random category
+  it('should fail to add a non-existent product to the basket', () => {
+    homePage.visit();
+    homePage.verifyUrl();
+    homePage.openCategoryMenu();
 
-    // Verify that the category page is displayed
-    cy.url().should('contain', 'category');
+    categoryPage.selectCategory(1);  // Random category for the failing test
+    categoryPage.verifyUrlContains('category');
+    categoryPage.scrollToProductSection();
 
-    // Scroll to the product section
-    cy.scrollTo('center');
+    // Attempting to select a non-existent product
+    productPage.selectFirstProductOnPageToQuiqBuy();
 
-    // Select a specific product and add it to the basket
-    cy.get('.simple-slider-list__link > .product-icons-wrapper > .to-quick-buy').first().click(); // Select the first product on the PLP
-
-    // Add the product to the basket
-    cy.get('.header-basket').click();
-
-    // Verify that the basket page is displayed
-    cy.get('.page-header').should('contain', 'Кошик');
+    productPage.verifyBasketPageDisplayed();
   });
 });

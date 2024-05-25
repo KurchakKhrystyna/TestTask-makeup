@@ -1,51 +1,44 @@
+import HomePage from '../support/pages/HomePage';
+import CategoryPage from '../support/pages/CategoryPage';
 
 describe('Verify price filter works correctly', () => {
-  const randomCategoryIndex = Math.floor(Math.random() * 5) + 2;
-  const randomFilterIndex = Math.floor(Math.random() * 8) + 1;
+  const randomCategoryIndex = Math.floor(Math.random() * 6) + 2;
+  const randomFilterIndex = Math.floor(Math.random() * 7) + 2;
   let filterValue;
+  const homePage = new HomePage();
+  const categoryPage = new CategoryPage();
 
   it('should apply price filters and verify results', () => {
-    cy.visit('/');
-    cy.url().should('eq', Cypress.config().baseUrl);
+    homePage.visit();
+    homePage.verifyUrl();
+    homePage.openCategoryMenu();
 
-    // Open the category menu
-    cy.get('.menu-button').click();
-
-    // Select a specific category
-    cy.get(`:nth-child(${randomCategoryIndex}) > .menu-list__link`).click();
-    cy.url().should('contain', 'category');
-
-    // Open the filter section
-    cy.get('[data-id="parameters"]').click();
+    categoryPage.selectCategory(randomCategoryIndex);
+    categoryPage.verifyUrlContains('category');
+    categoryPage.scrollToProductSection();
+    categoryPage.openFilterSection();
     cy.scrollTo('bottom');
 
-    // Apply the price filter
-    cy.contains('.catalog-filter-name', 'Вартість').click();
-    cy.get(`#catalog-price-dia-_${randomFilterIndex} > label`)
-      .click()
-      .invoke('text')
-      .then((text) => {
-        filterValue = text.trim(); // Store the filter value
-        // Apply the filter
-        cy.get('button:contains("Застосувати")').click();
-        cy.scrollTo('top');
+    categoryPage.applyPriceFilter(randomFilterIndex);
+    categoryPage.getFilterValue(randomFilterIndex).then(value => {
+      filterValue = value;
 
-        // Construct the expected value based on different conditions
-        let expectedValue;
-        if (filterValue.includes('Менше')) {
-          expectedValue = `price_to=${filterValue.replace('Менше', '').trim().replace('₴', '').trim()}`;
-        } else if (filterValue.includes('Більше')) {
-          expectedValue = `price_from=${filterValue.replace('Більше', '').trim().replace('₴', '').trim()}`;
-        } else if (filterValue.includes('-')) {
-          const [from, to] = filterValue.split('-').map((val) => val.trim());
-          expectedValue = `#price_from=${from}&price_to=${to}`.trim().replace('₴', '').trim();
-        } else {
-          // Default case if none of the conditions match
-          expectedValue = '';
-        }
+      let expectedValue;
+      let fromPrice = 0;
+      let toPrice = Number.MAX_SAFE_INTEGER;
 
-        // Verify the URL contains the expected filter parameter
-        cy.url().should('include', expectedValue);
-      });
+      if (filterValue.includes('Менше')) {
+        toPrice = parseFloat(filterValue.replace('Менше', '').trim().replace('₴', '').trim());
+        expectedValue = `price_to=${toPrice}`;
+      } else if (filterValue.includes('Більше')) {
+        fromPrice = parseFloat(filterValue.replace('Більше', '').trim().replace('₴', '').trim());
+        expectedValue = `price_from=${fromPrice}`;
+      } else if (filterValue.includes('-')) {
+        [fromPrice, toPrice] = filterValue.replace('₴', '').split('-').map(v => parseFloat(v.trim()));
+        expectedValue = `price_from=${fromPrice}&price_to=${toPrice}`;
+      }
+
+      categoryPage.verifyUrlContainsPriceFilter(expectedValue);
+    });
   });
 });
